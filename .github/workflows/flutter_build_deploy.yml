@@ -1,0 +1,56 @@
+name: Build Flutter Web and Publish Artifact
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Java (required by Flutter)
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+
+      - name: Install Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.10.0'
+
+      - name: Flutter --version
+        run: flutter --version
+
+      - name: Install dependencies
+        working-directory: Phase1_Landing_v1.0/apps/phase1_flutter
+        run: flutter pub get
+
+      - name: Build Flutter web (release)
+        working-directory: Phase1_Landing_v1.0/apps/phase1_flutter
+        run: flutter build web --release
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase1-flutter-web
+          path: Phase1_Landing_v1.0/apps/phase1_flutter/build/web
+
+      # Optional: create a release with the artifact (uncomment to enable)
+      # - name: Create Release
+      #   uses: softprops/action-gh-release@v1
+      #   with:
+      #     tag_name: "phase1-flutter-web-${{ github.run_number }}"
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # Optional: call a deployment webhook to trigger remote deploy (e.g., CloudStudio API)
+      # - name: Notify deployment webhook
+      #   if: success()
+      #   run: |
+      #     curl -X POST -H "Content-Type: application/json" -d '{"artifact":"phase1-flutter-web","run":${{ github.run_id }}}' ${{ secrets.DEPLOY_WEBHOOK_URL }}

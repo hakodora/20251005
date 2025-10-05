@@ -1,0 +1,36 @@
+openapi: 3.0.0
+info:
+  title: iBrushPal Phase1 API
+  version: 1.0.0
+paths:
+  /auth/register:
+    post:
+      summary: User registration
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+                phone:
+                  type: string
+      responses:
+        '200':
+          description: OK
+  /users/{user_id}:
+    get:
+      summary: Get user profile
+      parameters:
+        - in: path
+          name: user_id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK

@@ -1,0 +1,13 @@
+{
+  "version": "v1.0.0-Phase1",
+  "timestamp": "2025-10-05T16:00:00+08:00",
+  "author": "CodeBuddy Automation",
+  "files": [
+    "Phase1_PRD.md",
+    "schema/phase1_schema.yaml",
+    "apps/phase1_flutter/lib/main.dart",
+    "prompts/CodeBuddy_prompts.md",
+    "tests/phase1/test_cases.md",
+    "migration_phase1/plan.md"
+  ]
+}
